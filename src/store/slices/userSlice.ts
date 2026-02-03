@@ -26,7 +26,6 @@ const loginUser = createAsyncThunk<AuthResponse, AuthPayload, { rejectValue: str
     async (payload, thunkApi) => {
         try {
             const data = await userActions.login(payload);
-            console.log('Login successful:', data);
             return data;
         } catch (error) {
             if (axios.isAxiosError(error)) {

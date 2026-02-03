@@ -19,7 +19,6 @@ const StripePage = () => {
         setError(null);
         try {
             const response = await exhibitActions.getAll(pageToLoad, PAGE_SIZE);
-            console.log('StripePage posts response:', response);
             setExhibits(response.data);
             setTotal(response.total);
             setPage(response.page);

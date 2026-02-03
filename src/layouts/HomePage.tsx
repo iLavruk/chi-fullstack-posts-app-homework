@@ -22,7 +22,6 @@ const HomePage = () => {
         setError(null);
         try {
             const response = await exhibitActions.getMine(pageToLoad, PAGE_SIZE);
-            console.log('HomePage posts response:', response);
             setExhibits(response.data);
             setTotal(response.total);
             setPage(response.page);
