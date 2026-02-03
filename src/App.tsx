@@ -2,10 +2,12 @@ import { Routes, Route } from 'react-router-dom';
 
 import { HomePage, LoginPage, NewPost, RegisterPage, StripePage, NotFoundPage } from '@/layouts';
 import { GuestRoute, ProtectedRoute } from '@/routes';
+import { useAppSelector } from '@/store/hooks';
 import { ROUTE_PATHS } from '@/constants';
 
 const App = () => {
-    const isAuthenticated = false;
+    const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+    console.log('isAuthenticated:', isAuthenticated);
 
     return (
         <Routes>
