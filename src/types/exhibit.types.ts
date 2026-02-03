@@ -6,6 +6,11 @@ type Exhibit = {
     imageUrl?: string;
     authorId?: number;
     createdAt?: string;
+    user?: {
+        id?: number;
+        username?: string;
+    };
+    commentCount?: number;
 };
 
 type CreateExhibitPayload = {

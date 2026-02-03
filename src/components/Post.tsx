@@ -56,18 +56,25 @@ const Post = ({ exhibit, onDelete, showComments = true }: PostProps) => {
                     </Typography.Paragraph>
                 )}
                 <Space size="large" style={{ justifyContent: 'space-between', width: '100%' }}>
-                    {exhibit.authorId !== undefined ? (
-                        <Typography.Text type="secondary">
-                            Author ID: {exhibit.authorId}
-                        </Typography.Text>
-                    ) : (
-                        <span />
-                    )}
-                    {exhibit.createdAt && (
-                        <Typography.Text type="secondary">
-                            {createdAt}
-                        </Typography.Text>
-                    )}
+                    <Typography.Text type="secondary">
+                        {exhibit.user?.username
+                            ? `User: ${exhibit.user.username}`
+                            : exhibit.authorId !== undefined
+                                ? `Author ID: ${exhibit.authorId}`
+                                : 'User: —'}
+                    </Typography.Text>
+                    <Space size="middle">
+                        {typeof exhibit.commentCount === 'number' && (
+                            <Typography.Text type="secondary">
+                                Comments: {exhibit.commentCount}
+                            </Typography.Text>
+                        )}
+                        {exhibit.createdAt && (
+                            <Typography.Text type="secondary">
+                                {createdAt}
+                            </Typography.Text>
+                        )}
+                    </Space>
                 </Space>
                 {onDelete && (
                     <Button danger onClick={() => onDelete(exhibit.id)}>
