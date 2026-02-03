@@ -2,7 +2,7 @@
   "name": "chi-posts-app-homework",
   "version": "1.0.0",
   "description": "CHI Fullstack Posts App",
-  "type": "module", 
+  "type": "module",
   "scripts": {
     "start": "webpack serve --open",
     "build": "webpack"
@@ -11,6 +11,7 @@
     "@reduxjs/toolkit": "2.11.2",
     "antd": "6.2.2",
     "axios": "1.13.4",
+    "formik": "2.4.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-redux": "9.2.0",

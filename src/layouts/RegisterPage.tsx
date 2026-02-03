@@ -1,10 +1,11 @@
+import { RegisterForm } from '@/components';
+
 const RegisterPage = () => {
     return (
-        <div>
-            <h1>Register Page</h1>
-            <p>Please fill in the form to create an account.</p>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
+            <RegisterForm />
         </div>
     );
-}   
+};
 
 export default RegisterPage;
