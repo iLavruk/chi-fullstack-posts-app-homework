@@ -8,7 +8,7 @@ const userActions = {
     },
 
     register: async (payload: AuthPayload) => {
-        const { data } = await axiosInstance.post<AuthResponse>('/auth/register', payload);
+        const { data } = await axiosInstance.post<AuthResponse>('/users/register', payload);
         return data;
     },
 };

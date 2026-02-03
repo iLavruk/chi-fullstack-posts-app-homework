@@ -1,10 +1,13 @@
 type AuthPayload = {
-  email: string;
+  username: string;
   password: string;
 };
 
 type AuthResponse = {
-  token: string;
+  access_token: string;
+  refresh_token: string;
+  userName: string;
+  userId: number;
 };
 
 export type { AuthPayload, AuthResponse };
