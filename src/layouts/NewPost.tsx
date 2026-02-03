@@ -16,7 +16,9 @@ const validate = (values: NewPostValues) => {
         errors.image = 'Image is required';
     }
 
-    if (values.description && values.description.trim().length > 0 && values.description.trim().length < 5) {
+    if (!values.description.trim()) {
+        errors.description = 'Description is required';
+    } else if (values.description.trim().length < 5) {
         errors.description = 'Description must be at least 5 characters';
     }
 

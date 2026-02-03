@@ -8,10 +8,6 @@ type PaginationProps = {
 };
 
 const Pagination = ({ current, total, pageSize, onChange }: PaginationProps) => {
-    if (total <= pageSize) {
-        return null;
-    }
-
     return (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
             <AntPagination
@@ -19,7 +15,9 @@ const Pagination = ({ current, total, pageSize, onChange }: PaginationProps) => 
                 total={total}
                 pageSize={pageSize}
                 onChange={onChange}
+                onShowSizeChange={onChange}
                 showSizeChanger={false}
+                showTotal={(count, range) => `${range[0]}-${range[1]} of ${count}`}
             />
         </div>
     );

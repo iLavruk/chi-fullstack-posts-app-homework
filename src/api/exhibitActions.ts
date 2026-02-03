@@ -1,18 +1,48 @@
 import { axiosInstance } from '@/api';
-import type { Exhibit, CreateExhibitPayload } from '@/types';
+import type { Exhibit, CreateExhibitPayload, PaginatedResponse } from '@/types';
 
-const normalizeList = (payload: unknown): Exhibit[] => {
-    return Array.isArray(payload) ? (payload as Exhibit[]) : [];
+const normalizeList = (payload: unknown): PaginatedResponse<Exhibit> => {
+    if (Array.isArray(payload)) {
+        return {
+            data: payload as Exhibit[],
+            page: 1,
+            lastPage: 1,
+            total: payload.length,
+        };
+    }
+
+    if (payload && typeof payload === 'object') {
+        const record = payload as Record<string, unknown>;
+        if (Array.isArray(record.data)) {
+            return {
+                data: record.data as Exhibit[],
+                page: typeof record.page === 'number' ? record.page : 1,
+                lastPage: typeof record.lastPage === 'number' ? record.lastPage : 1,
+                total: typeof record.total === 'number' ? record.total : record.data.length,
+            };
+        }
+    }
+
+    return {
+        data: [],
+        page: 1,
+        lastPage: 1,
+        total: 0,
+    };
 };
 
 const exhibitActions = {
-    getAll: async () => {
-        const { data } = await axiosInstance.get<unknown>('/api/exhibits');
+    getAll: async (page = 1, limit = 10) => {
+        const { data } = await axiosInstance.get<unknown>('/api/exhibits', {
+            params: { page, limit },
+        });
         return normalizeList(data);
     },
 
-    getMine: async () => {
-        const { data } = await axiosInstance.get<unknown>('/api/exhibits/my-posts');
+    getMine: async (page = 1, limit = 10) => {
+        const { data } = await axiosInstance.get<unknown>('/api/exhibits/my-posts', {
+            params: { page, limit },
+        });
         return normalizeList(data);
     },
 
