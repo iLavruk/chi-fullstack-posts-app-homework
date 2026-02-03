@@ -1,9 +1,10 @@
 type Comment = {
     id: number;
-    exhibitId: number;
-    authorId: number;
+    exhibitId?: number;
+    authorId?: number;
+    userName?: string;
     text: string;
-    createdAt: string;
+    createdAt?: string;
 };
 
 type CreateCommentPayload = {

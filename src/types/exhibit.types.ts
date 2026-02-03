@@ -1,14 +1,16 @@
 type Exhibit = {
     id: number;
-    title: string;
+    title?: string;
     description?: string;
-    authorId: number;
-    createdAt: string;
+    image?: string;
+    imageUrl?: string;
+    authorId?: number;
+    createdAt?: string;
 };
 
 type CreateExhibitPayload = {
-    title: string;
     description?: string;
+    image: File;
 };
 
 export type { Exhibit, CreateExhibitPayload };

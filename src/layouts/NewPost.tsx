@@ -5,17 +5,15 @@ import { Alert, Button, Card, Form as AntForm, Input, Typography } from 'antd';
 import { exhibitActions } from '@/api';
 
 type NewPostValues = {
-    title: string;
     description: string;
+    image: File | null;
 };
 
 const validate = (values: NewPostValues) => {
     const errors: Partial<Record<keyof NewPostValues, string>> = {};
 
-    if (!values.title.trim()) {
-        errors.title = 'Title is required';
-    } else if (values.title.trim().length < 3) {
-        errors.title = 'Title must be at least 3 characters';
+    if (!values.image) {
+        errors.image = 'Image is required';
     }
 
     if (values.description && values.description.trim().length > 0 && values.description.trim().length < 5) {
@@ -52,16 +50,21 @@ const NewPost = () => {
                     />
                 )}
                 <Formik<NewPostValues>
-                    initialValues={{ title: '', description: '' }}
+                    initialValues={{ description: '', image: null }}
                     validate={validate}
                     onSubmit={async (values, { resetForm, setSubmitting }) => {
                         setError(null);
                         setSuccess(null);
 
                         try {
+                            if (!values.image) {
+                                setError('Image is required');
+                                return;
+                            }
+
                             await exhibitActions.create({
-                                title: values.title.trim(),
                                 description: values.description.trim() || undefined,
+                                image: values.image,
                             });
                             setSuccess('Post created successfully');
                             resetForm();
@@ -72,17 +75,32 @@ const NewPost = () => {
                         }
                     }}
                 >
-                    {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                    {({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        isSubmitting,
+                        setFieldValue,
+                        setFieldTouched,
+                    }) => (
                         <AntForm layout="vertical" onFinish={() => handleSubmit()}>
                             <AntForm.Item
-                                label="Title"
-                                validateStatus={touched.title && errors.title ? 'error' : ''}
-                                help={touched.title && errors.title ? errors.title : null}
+                                label="Image"
+                                validateStatus={touched.image && errors.image ? 'error' : ''}
+                                help={touched.image && errors.image ? errors.image : null}
                             >
-                                <Input
-                                    name="title"
-                                    value={values.title}
-                                    onChange={handleChange}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    name="image"
+                                    onChange={(event) => {
+                                        const file = event.currentTarget.files?.[0] ?? null;
+                                        setFieldValue('image', file);
+                                        setFieldTouched('image', true, true);
+                                    }}
                                     onBlur={handleBlur}
                                 />
                             </AntForm.Item>

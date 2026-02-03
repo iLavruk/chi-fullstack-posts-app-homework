@@ -3,7 +3,7 @@ import { type AuthPayload, type AuthResponse } from '@/types';
 
 const userActions = {
     login: async (payload: AuthPayload) => {
-        const { data } = await axiosInstance.post<AuthResponse>('/auth/login', payload);
+        const { data } = await axiosInstance.post<AuthResponse>('/api/auth/login', payload);
         return data;
     },
 
