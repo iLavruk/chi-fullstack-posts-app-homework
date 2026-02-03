@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { API_URL } from '@/constants';
+import { API_URL, ROUTE_PATHS } from '@/constants';
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
@@ -18,6 +18,23 @@ axiosInstance.interceptors.request.use(
         return config;
     },
     (error) => Promise.reject(error)
+);
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const status = error?.response?.status;
+
+        if (status === 401 || status === 403) {
+            localStorage.removeItem('token');
+
+            if (window.location.pathname !== ROUTE_PATHS.LOGIN) {
+                window.location.replace(ROUTE_PATHS.LOGIN);
+            }
+        }
+
+        return Promise.reject(error);
+    }
 );
 
 export default axiosInstance;
