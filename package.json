@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "webpack serve --open",
-    "build": "webpack"
+    "build": "webpack --mode production",
+    "deploy": "npm run build && bash deploy.sh"
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.11.2",
