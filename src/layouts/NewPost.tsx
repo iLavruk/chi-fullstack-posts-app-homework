@@ -3,26 +3,11 @@ import { Formik } from 'formik';
 import { Alert, Button, Card, Form as AntForm, Input, Typography } from 'antd';
 
 import { exhibitActions } from '@/api';
+import { validateNewPost } from '@/utils';
 
 type NewPostValues = {
     description: string;
     image: File | null;
-};
-
-const validate = (values: NewPostValues) => {
-    const errors: Partial<Record<keyof NewPostValues, string>> = {};
-
-    if (!values.image) {
-        errors.image = 'Image is required';
-    }
-
-    if (!values.description.trim()) {
-        errors.description = 'Description is required';
-    } else if (values.description.trim().length < 5) {
-        errors.description = 'Description must be at least 5 characters';
-    }
-
-    return errors;
 };
 
 const NewPost = () => {
@@ -53,7 +38,7 @@ const NewPost = () => {
                 )}
                 <Formik<NewPostValues>
                     initialValues={{ description: '', image: null }}
-                    validate={validate}
+                    validate={validateNewPost}
                     onSubmit={async (values, { resetForm, setSubmitting }) => {
                         setError(null);
                         setSuccess(null);

@@ -1,6 +1,7 @@
 import { List, Space, Typography } from 'antd';
 
 import type { Comment as CommentType } from '@/types';
+import { formatDateTime } from '@/utils';
 
 type CommentProps = {
     comment: CommentType;
@@ -8,7 +9,7 @@ type CommentProps = {
 };
 
 const Comment = ({ comment, onDelete }: CommentProps) => {
-    const createdAt = comment.createdAt ? new Date(comment.createdAt).toLocaleString() : '—';
+    const createdAt = formatDateTime(comment.createdAt);
     const authorLabel = comment.userName
         ? comment.userName
         : comment.authorId !== undefined
@@ -35,7 +36,7 @@ const Comment = ({ comment, onDelete }: CommentProps) => {
                 <Typography.Paragraph style={{ marginBottom: 4 }}>
                     {comment.text}
                 </Typography.Paragraph>
-                {comment.createdAt && (
+                {createdAt && (
                     <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                         {createdAt}
                     </Typography.Text>

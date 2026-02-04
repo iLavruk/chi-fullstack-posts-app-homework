@@ -3,28 +3,11 @@ import { Alert, Button, Card, Form as AntForm, Input, Typography } from 'antd';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { registerUser } from '@/store/slices/userSlice';
+import { validateAuth } from '@/utils';
 
 type RegisterValues = {
     username: string;
     password: string;
-};
-
-const validate = (values: RegisterValues) => {
-    const errors: Partial<Record<keyof RegisterValues, string>> = {};
-
-    if (!values.username.trim()) {
-        errors.username = 'Username is required';
-    } else if (values.username.trim().length < 3) {
-        errors.username = 'Username must be at least 3 characters';
-    }
-
-    if (!values.password) {
-        errors.password = 'Password is required';
-    } else if (values.password.length < 6) {
-        errors.password = 'Password must be at least 6 characters';
-    }
-
-    return errors;
 };
 
 const RegisterForm = () => {
@@ -46,7 +29,7 @@ const RegisterForm = () => {
             )}
             <Formik<RegisterValues>
                 initialValues={{ username: '', password: '' }}
-                validate={validate}
+                validate={validateAuth}
                 onSubmit={(values) => {
                     dispatch(registerUser({ username: values.username.trim(), password: values.password }));
                 }}

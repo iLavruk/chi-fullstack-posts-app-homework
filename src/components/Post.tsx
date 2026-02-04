@@ -2,6 +2,7 @@ import { Button, Card, Space, Tag, Typography } from 'antd';
 
 import type { Exhibit } from '@/types';
 import { API_URL } from '@/constants';
+import { formatDateTime } from '@/utils';
 import CommentStripe from './CommentStripe';
 
 type PostProps = {
@@ -11,27 +12,15 @@ type PostProps = {
 };
 
 const Post = ({ exhibit, onDelete, showComments = true }: PostProps) => {
-    const createdAt = exhibit.createdAt ? new Date(exhibit.createdAt).toLocaleString() : '-';
+    const createdAt = formatDateTime(exhibit.createdAt);
     const title = exhibit.title ?? exhibit.description ?? `Exhibit #${exhibit.id}`;
     const description =
         exhibit.title && exhibit.description ? exhibit.description : undefined;
 
-    const resolveUrl = (value: string) => {
-        if (value.startsWith('http')) {
-            return value;
-        }
-        if (value.startsWith('/')) {
-            return `${API_URL}${value}`;
-        }
-        return `${API_URL}/${value}`;
-    };
-
     const imageSrc = exhibit.imageUrl
-        ? resolveUrl(exhibit.imageUrl)
+        ? `${API_URL}${exhibit.imageUrl}`
         : exhibit.image
-            ? exhibit.image.startsWith('http')
-                ? exhibit.image
-                : resolveUrl(`/api/exhibits/static/${exhibit.image}`)
+            ? `${API_URL}/api/exhibits/static/${exhibit.image}`
             : undefined;
 
     return (
@@ -69,11 +58,11 @@ const Post = ({ exhibit, onDelete, showComments = true }: PostProps) => {
                                 Comments: {exhibit.commentCount}
                             </Typography.Text>
                         )}
-                        {exhibit.createdAt && (
-                            <Typography.Text type="secondary">
-                                {createdAt}
-                            </Typography.Text>
-                        )}
+                    {createdAt && (
+                        <Typography.Text type="secondary">
+                            {createdAt}
+                        </Typography.Text>
+                    )}
                     </Space>
                 </Space>
                 {onDelete && (
