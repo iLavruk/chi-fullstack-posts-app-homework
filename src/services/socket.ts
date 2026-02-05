@@ -13,6 +13,7 @@ const getSocket = () => {
             reconnection: true,
             reconnectionDelay: SOCKET_RECONNECT_DELAY_MS,
         });
+
     }
 
     return socket;

@@ -3,7 +3,7 @@ import { Alert, Empty, Space, Spin } from 'antd';
 
 import { exhibitActions } from '@/api';
 import { ControlBar, Pagination, Post } from '@/components';
-import { MESSAGES, PAGE_SIZE } from '@/constants';
+import { EVENTS, MESSAGES, PAGE_SIZE } from '@/constants';
 import type { Exhibit } from '@/types';
 
 const StripePage = () => {
@@ -30,6 +30,14 @@ const StripePage = () => {
 
     useEffect(() => {
         loadExhibits(1);
+    }, []);
+
+    useEffect(() => {
+        const handler = () => loadExhibits(1);
+        window.addEventListener(EVENTS.POST_CREATED, handler);
+        return () => {
+            window.removeEventListener(EVENTS.POST_CREATED, handler);
+        };
     }, []);
 
     return (

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { exhibitActions } from '@/api';
 import { ControlBar, Pagination, Post } from '@/components';
-import { MESSAGES, PAGE_SIZE, ROUTE_PATHS } from '@/constants';
+import { EVENTS, MESSAGES, PAGE_SIZE, ROUTE_PATHS } from '@/constants';
 import type { Exhibit } from '@/types';
 
 const HomePage = () => {
@@ -32,6 +32,14 @@ const HomePage = () => {
 
     useEffect(() => {
         loadExhibits(1);
+    }, []);
+
+    useEffect(() => {
+        const handler = () => loadExhibits(1);
+        window.addEventListener(EVENTS.POST_CREATED, handler);
+        return () => {
+            window.removeEventListener(EVENTS.POST_CREATED, handler);
+        };
     }, []);
 
     const handleDelete = async (id: number) => {

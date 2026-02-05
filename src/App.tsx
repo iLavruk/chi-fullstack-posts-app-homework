@@ -1,36 +1,20 @@
-import { useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { App as AntdApp, Layout, Menu } from 'antd';
+import type { MenuProps } from 'antd';
 
 import { HomePage, LoginPage, NewPost, RegisterPage, StripePage, NotFoundPage } from '@/layouts';
 import { GuestRoute, ProtectedRoute } from '@/routes';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/slices/userSlice';
 import { ROUTE_PATHS } from '@/constants';
-import { getSocket, disconnectSocket, notifyInfo } from '@/services';
-
-import type { NotificationPayload } from '@/types';
-import type { MenuProps } from 'antd';
+import { disconnectSocket } from '@/services';
+import { Notifications } from '@/components';
 
 const App = () => {
     const dispatch = useAppDispatch();
     const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
     const location = useLocation();
     const navigate = useNavigate();
-
-    useEffect(() => {   
-        const socket = getSocket();
-
-        const handleNotification = (payload: NotificationPayload) => {
-            notifyInfo(payload);
-        };
-
-        socket.on('notification', handleNotification);
-
-        return () => {
-            socket.off('notification', handleNotification);
-        };
-    }, []);
 
     const handleMenuClick: MenuProps['onClick'] = (event) => {
         if (event.key === 'logout') {
@@ -73,39 +57,42 @@ const App = () => {
     ];
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
-            <Layout.Header style={{ display: 'flex', alignItems: 'center' }}>
-                <Menu
-                    mode="horizontal"
-                    theme="dark"
-                    selectedKeys={[location.pathname]}
-                    items={menuItems}
-                    onClick={handleMenuClick}
-                    style={{ flex: 1 }}
-                />
-            </Layout.Header>
-            <Layout.Content style={{ padding: '24px 0' }}>
-                <Routes>
-                    {/* Public */}
-                    <Route path={ROUTE_PATHS.ROOT} element={<StripePage />} />
+        <AntdApp>
+            <Notifications />
+            <Layout style={{ minHeight: '100vh' }}>
+                <Layout.Header style={{ display: 'flex', alignItems: 'center' }}>
+                    <Menu
+                        mode="horizontal"
+                        theme="dark"
+                        selectedKeys={[location.pathname]}
+                        items={menuItems}
+                        onClick={handleMenuClick}
+                        style={{ flex: 1 }}
+                    />
+                </Layout.Header>
+                <Layout.Content style={{ padding: '24px 0' }}>
+                    <Routes>
+                        {/* Public */}
+                        <Route path={ROUTE_PATHS.ROOT} element={<StripePage />} />
 
-                    {/* Guest-only */}
-                    <Route element={<GuestRoute isGuest={!isAuthenticated} />}>
-                        <Route path={ROUTE_PATHS.LOGIN} element={<LoginPage />} />
-                        <Route path={ROUTE_PATHS.REGISTER} element={<RegisterPage />} />
-                    </Route>
+                        {/* Guest-only */}
+                        <Route element={<GuestRoute isGuest={!isAuthenticated} />}>
+                            <Route path={ROUTE_PATHS.LOGIN} element={<LoginPage />} />
+                            <Route path={ROUTE_PATHS.REGISTER} element={<RegisterPage />} />
+                        </Route>
 
-                    {/* Protected */}
-                    <Route element={<ProtectedRoute isAllowed={isAuthenticated} />}>
-                        <Route path={ROUTE_PATHS.HOME} element={<HomePage />} />
-                        <Route path={ROUTE_PATHS.NEW_POST} element={<NewPost />} />
-                    </Route>
+                        {/* Protected */}
+                        <Route element={<ProtectedRoute isAllowed={isAuthenticated} />}>
+                            <Route path={ROUTE_PATHS.HOME} element={<HomePage />} />
+                            <Route path={ROUTE_PATHS.NEW_POST} element={<NewPost />} />
+                        </Route>
 
-                    { /* Fallback */}
-                    <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-            </Layout.Content>
-        </Layout>
+                        { /* Fallback */}
+                        <Route path="*" element={<NotFoundPage />} />
+                    </Routes>
+                </Layout.Content>
+            </Layout>
+        </AntdApp>
     );
 }
 

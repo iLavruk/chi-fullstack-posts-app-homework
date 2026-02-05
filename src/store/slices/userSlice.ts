@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { userActions } from '@/api';
 
@@ -27,12 +26,7 @@ const loginUser = createAsyncThunk<AuthResponse, AuthPayload, { rejectValue: str
         try {
             const data = await userActions.login(payload);
             return data;
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error('Login failed:', error.response?.status, error.response?.data);
-            } else {
-                console.error('Login failed:', error);
-            }
+        } catch {
             return thunkApi.rejectWithValue('Login failed');
         }
     }
@@ -44,12 +38,7 @@ const registerUser = createAsyncThunk<AuthResponse, AuthPayload, { rejectValue: 
         try {
             const data = await userActions.register(payload);
             return data;
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error('Register failed:', error.response?.status, error.response?.data);
-            } else {
-                console.error('Register failed:', error);
-            }
+        } catch {
             return thunkApi.rejectWithValue('Register failed');
         }
     }

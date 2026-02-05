@@ -5,3 +5,4 @@ export { default as CommentStripe } from './CommentStripe';
 export { default as Comment } from './Comment';
 export { default as ControlBar } from './ControlBar';
 export { default as Pagination } from './Pagination';
+export { default as Notifications } from './Notifications';
