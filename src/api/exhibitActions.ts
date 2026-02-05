@@ -1,5 +1,6 @@
 import { axiosInstance } from '@/api';
 import type { Exhibit, CreateExhibitPayload, PaginatedResponse } from '@/types';
+import { DEFAULT_PAGE, PAGE_SIZE } from '@/constants';
 
 const normalizeList = (payload: unknown): PaginatedResponse<Exhibit> => {
     if (Array.isArray(payload)) {
@@ -32,14 +33,14 @@ const normalizeList = (payload: unknown): PaginatedResponse<Exhibit> => {
 };
 
 const exhibitActions = {
-    getAll: async (page = 1, limit = 10) => {
+    getAll: async (page = DEFAULT_PAGE, limit = PAGE_SIZE) => {
         const { data } = await axiosInstance.get<unknown>('/api/exhibits', {
             params: { page, limit },
         });
         return normalizeList(data);
     },
 
-    getMine: async (page = 1, limit = 10) => {
+    getMine: async (page = DEFAULT_PAGE, limit = PAGE_SIZE) => {
         const { data } = await axiosInstance.get<unknown>('/api/exhibits/my-posts', {
             params: { page, limit },
         });

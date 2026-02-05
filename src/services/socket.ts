@@ -1,6 +1,6 @@
 import { io, type Socket } from 'socket.io-client';
 
-import { SOCKET_SERVER_URL } from '@/constants';
+import { SOCKET_SERVER_URL, SOCKET_RECONNECT_DELAY_MS } from '@/constants';
 import type { NotificationPayload } from '@/types';
 
 let socket: Socket | null = null;
@@ -11,7 +11,7 @@ const getSocket = () => {
             transports: ['websocket'],
             autoConnect: true,
             reconnection: true,
-            reconnectionDelay: 1000,
+            reconnectionDelay: SOCKET_RECONNECT_DELAY_MS,
         });
     }
 

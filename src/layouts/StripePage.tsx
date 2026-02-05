@@ -3,9 +3,8 @@ import { Alert, Empty, Space, Spin } from 'antd';
 
 import { exhibitActions } from '@/api';
 import { ControlBar, Pagination, Post } from '@/components';
+import { MESSAGES, PAGE_SIZE } from '@/constants';
 import type { Exhibit } from '@/types';
-
-const PAGE_SIZE = 10;
 
 const StripePage = () => {
     const [exhibits, setExhibits] = useState<Exhibit[]>([]);
@@ -23,7 +22,7 @@ const StripePage = () => {
             setTotal(response.total);
             setPage(response.page);
         } catch {
-            setError('Failed to load posts');
+            setError(MESSAGES.loadPostsFailed);
         } finally {
             setLoading(false);
         }

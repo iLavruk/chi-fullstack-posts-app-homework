@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { Alert, Button, Card, Form as AntForm, Input, Typography } from 'antd';
 
 import { exhibitActions } from '@/api';
+import { MESSAGES } from '@/constants';
 import { validateNewPost } from '@/utils';
 
 type NewPostValues = {
@@ -56,7 +57,7 @@ const NewPost = () => {
                             setSuccess('Post created successfully');
                             resetForm();
                         } catch {
-                            setError('Failed to create post');
+                            setError(MESSAGES.createPostFailed);
                         } finally {
                             setSubmitting(false);
                         }

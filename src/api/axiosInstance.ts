@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { API_URL, ROUTE_PATHS } from '@/constants';
+import { API_URL, ROUTE_PATHS, HTTP_TIMEOUT_MS, AUTH_ERROR_STATUSES } from '@/constants';
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
-    timeout: 10000,
+    timeout: HTTP_TIMEOUT_MS,
 });
 
 axiosInstance.interceptors.request.use(
@@ -25,7 +25,7 @@ axiosInstance.interceptors.response.use(
     (error) => {
         const status = error?.response?.status;
 
-        if (status === 401 || status === 403) {
+        if (status && AUTH_ERROR_STATUSES.includes(status)) {
             localStorage.removeItem('token');
 
             if (window.location.pathname !== ROUTE_PATHS.LOGIN) {

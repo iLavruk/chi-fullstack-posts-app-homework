@@ -4,10 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { exhibitActions } from '@/api';
 import { ControlBar, Pagination, Post } from '@/components';
-import { ROUTE_PATHS } from '@/constants';
+import { MESSAGES, PAGE_SIZE, ROUTE_PATHS } from '@/constants';
 import type { Exhibit } from '@/types';
-
-const PAGE_SIZE = 10;
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -26,7 +24,7 @@ const HomePage = () => {
             setTotal(response.total);
             setPage(response.page);
         } catch {
-            setError('Failed to load your posts');
+            setError(MESSAGES.loadMyPostsFailed);
         } finally {
             setLoading(false);
         }
@@ -41,7 +39,7 @@ const HomePage = () => {
             await exhibitActions.remove(id);
             await loadExhibits(page);
         } catch {
-            setError('Failed to delete post');
+            setError(MESSAGES.deletePostFailed);
         }
     };
 

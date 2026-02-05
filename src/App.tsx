@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Layout, Menu, notification } from 'antd';
+import { Layout, Menu } from 'antd';
 
 import { HomePage, LoginPage, NewPost, RegisterPage, StripePage, NotFoundPage } from '@/layouts';
 import { GuestRoute, ProtectedRoute } from '@/routes';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/slices/userSlice';
 import { ROUTE_PATHS } from '@/constants';
-import { getSocket, disconnectSocket } from '@/services';
+import { getSocket, disconnectSocket, notifyInfo } from '@/services';
 
 import type { NotificationPayload } from '@/types';
 import type { MenuProps } from 'antd';
@@ -22,14 +22,7 @@ const App = () => {
         const socket = getSocket();
 
         const handleNotification = (payload: NotificationPayload) => {
-            const message = payload.title ?? 'Notification';
-            const description = payload.message ?? payload.text ?? '';
-
-            notification.info({
-                message,
-                description,
-                placement: 'topRight',
-            });
+            notifyInfo(payload);
         };
 
         socket.on('notification', handleNotification);

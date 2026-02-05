@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Button, Input, List, Space, Typography } from 'antd';
 
 import { commentActions } from '@/api';
+import { MESSAGES } from '@/constants';
 import type { Comment as CommentType } from '@/types';
 import Comment from './Comment';
 
@@ -23,7 +24,7 @@ const CommentStripe = ({ exhibitId }: CommentStripeProps) => {
             const data = await commentActions.getByExhibit(exhibitId);
             setComments(data);
         } catch {
-            setError('Failed to load comments');
+            setError(MESSAGES.loadCommentsFailed);
         } finally {
             setLoading(false);
         }
@@ -41,7 +42,7 @@ const CommentStripe = ({ exhibitId }: CommentStripeProps) => {
             setText('');
             await loadComments();
         } catch {
-            setError('Failed to add comment');
+            setError(MESSAGES.addCommentFailed);
         }
     };
 
@@ -50,7 +51,7 @@ const CommentStripe = ({ exhibitId }: CommentStripeProps) => {
             await commentActions.remove(exhibitId, id);
             await loadComments();
         } catch {
-            setError('Failed to delete comment');
+            setError(MESSAGES.deleteCommentFailed);
         }
     };
 
