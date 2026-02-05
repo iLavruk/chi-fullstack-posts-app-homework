@@ -5,9 +5,6 @@ type AuthPayload = {
 
 type AuthResponse = {
   access_token: string;
-  refresh_token: string;
-  userName: string;
-  userId: number;
 };
 
 export type { AuthPayload, AuthResponse };

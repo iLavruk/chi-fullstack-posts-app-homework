@@ -1,7 +1,6 @@
 import { io, type Socket } from 'socket.io-client';
 
 import { SOCKET_SERVER_URL, SOCKET_RECONNECT_DELAY_MS } from '@/constants';
-import type { NotificationPayload } from '@/types';
 
 let socket: Socket | null = null;
 
@@ -27,5 +26,4 @@ const disconnectSocket = () => {
     }
 };
 
-export type { NotificationPayload };
 export { getSocket, disconnectSocket };

@@ -1,6 +1,5 @@
 type Comment = {
     id: number;
-    exhibitId?: number;
     authorId?: number;
     userName?: string;
     text: string;

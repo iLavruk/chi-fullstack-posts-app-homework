@@ -17,11 +17,7 @@ const Post = ({ exhibit, onDelete, showComments = true }: PostProps) => {
     const description =
         exhibit.title && exhibit.description ? exhibit.description : undefined;
 
-    const imageSrc = exhibit.imageUrl
-        ? `${API_URL}${exhibit.imageUrl}`
-        : exhibit.image
-            ? `${API_URL}/api/exhibits/static/${exhibit.image}`
-            : undefined;
+    const imageSrc = exhibit.imageUrl ? `${API_URL}${exhibit.imageUrl}` : undefined;
 
     return (
         <Card style={{ width: '100%' }}>

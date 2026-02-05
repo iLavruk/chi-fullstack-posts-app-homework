@@ -2,12 +2,10 @@ type Exhibit = {
     id: number;
     title?: string;
     description?: string;
-    image?: string;
     imageUrl?: string;
     authorId?: number;
     createdAt?: string;
     user?: {
-        id?: number;
         username?: string;
     };
     commentCount?: number;
